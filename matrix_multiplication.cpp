@@ -26,6 +26,7 @@ int naive_mul(double* matrix_des, const double* matrix_1, const double* matrix_2
 int advanced_mul(double* matrix_des, const double* matrix_1, const double* matrix_2);
 int another_advanced_mul(double* matrix_des, const double* matrix_1, const double* matrix_2);
 int cal_one_block(double* matrix_des,const double* matrix_1,const double* matrix_2);
+int advanced_cal_one_block(double* matrix_des,const double* matrix_1,const double* matrix_2);
 int blocked_mul(double* matrix_des, double* matrix_1, double* matrix_2);
 int advanced_blocked_mul(double* matrix_des, double* matrix_1, double* matrix_2);
 
@@ -144,22 +145,35 @@ int cal_one_block(double* matrix_des,const double* matrix_1,const double* matrix
     return 0;
 }
 
+int advanced_cal_one_block(double* matrix_des,const double* matrix_1,const double* matrix_2)
+{
+    for(int k=0;k<BLOCK_SIZE;k++)
+        for(int i=0;i<BLOCK_SIZE;i++)
+            for(int j=0;j<BLOCK_SIZE;j++)
+                matrix_des[i*MATRIX_SIZE+j] += matrix_1[i*MATRIX_SIZE+k]*matrix_2[k*MATRIX_SIZE+j];
+
+    return 0;
+}
+
 int blocked_mul(double* matrix_des, double* matrix_1, double* matrix_2)
 {
     for(int i=0;i<MATRIX_SIZE;i+=BLOCK_SIZE)
         for(int j=0;j<MATRIX_SIZE;j+=BLOCK_SIZE)
             for(int k=0;k<MATRIX_SIZE;k+=BLOCK_SIZE)
-                cal_one_block(matrix_des+i*MATRIX_SIZE+j,matrix_1+i*MATRIX_SIZE+k,matrix_2+k*MATRIX_SIZE+j);
+                cal_one_block(matrix_des+i*MATRIX_SIZE+j,
+                              matrix_1+i*MATRIX_SIZE+k,matrix_2+k*MATRIX_SIZE+j);
 
     return 0;
 }
 
 int advanced_blocked_mul(double* matrix_des, double* matrix_1, double* matrix_2)
 {
-    for(int k=0;k<MATRIX_SIZE;k+=BLOCK_SIZE)
-        for(int i=0;i<MATRIX_SIZE;i+=BLOCK_SIZE)
-            for(int j=0;j<MATRIX_SIZE;j+=BLOCK_SIZE)
-                cal_one_block(matrix_des+i*MATRIX_SIZE+j,matrix_1+i*MATRIX_SIZE+k,matrix_2+k*MATRIX_SIZE+j);
+    for(int i=0;i<MATRIX_SIZE;i+=BLOCK_SIZE)
+        for(int j=0;j<MATRIX_SIZE;j+=BLOCK_SIZE)
+            for(int k=0;k<MATRIX_SIZE;k+=BLOCK_SIZE)
+                advanced_cal_one_block(matrix_des+i*MATRIX_SIZE+j,
+                              matrix_1+i*MATRIX_SIZE+k,matrix_2+k*MATRIX_SIZE+j);
 
     return 0;
 }
+
