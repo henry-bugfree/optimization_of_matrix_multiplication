@@ -140,7 +140,7 @@ int cal_one_block(double* matrix_des,const double* matrix_1,const double* matrix
     for(int i=0;i<BLOCK_SIZE;i++)
         for(int j=0;j<BLOCK_SIZE;j++)
             for(int k=0;k<BLOCK_SIZE;k++)
-                matrix_des[i*MATRIX_SIZE+j] += matrix_1[i*MATRIX_SIZE+k]*matrix_2[k*MATRIX_SIZE+j];
+                matrix_des[i*BLOCK_SIZE+j] += matrix_1[i*BLOCK_SIZE+k]*matrix_2[k*BLOCK_SIZE+j];
 
     return 0;
 }
@@ -150,7 +150,7 @@ int advanced_cal_one_block(double* matrix_des,const double* matrix_1,const doubl
     for(int k=0;k<BLOCK_SIZE;k++)
         for(int i=0;i<BLOCK_SIZE;i++)
             for(int j=0;j<BLOCK_SIZE;j++)
-                matrix_des[i*MATRIX_SIZE+j] += matrix_1[i*MATRIX_SIZE+k]*matrix_2[k*MATRIX_SIZE+j];
+                matrix_des[i*BLOCK_SIZE+j] += matrix_1[i*BLOCK_SIZE+k]*matrix_2[k*BLOCK_SIZE+j];
 
     return 0;
 }
